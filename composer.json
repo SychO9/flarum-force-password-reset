@@ -27,8 +27,8 @@
             "category": "other",
             "icon": {
                 "name": "fas fa-key",
-                "color": "",
-                "backgroundColor": ""
+                "color": "#ffffff",
+                "backgroundColor": "#117187"
             }
         },
         "flarum-cli": {
