@@ -12,14 +12,22 @@ app.initializers.add('sycho/flarum-force-password-reset', () => {
         icon="fas fa-key"
         onclick={() => {
           if (confirm(extractText(app.translator.trans('sycho-force-password-reset.admin.force_password_reset.reset_all_confirm')))) {
-            app.request({
-              method: 'POST',
-              url: app.forum.attribute('apiUrl') + '/force-password-reset',
-            }).then(() => app.alerts.show({
-              type: 'success',
-            }, app.translator.trans('sycho-force-password-reset.admin.force_password_reset.reset_all_success')));
+            app
+              .request({
+                method: 'POST',
+                url: app.forum.attribute('apiUrl') + '/force-password-reset',
+              })
+              .then(() =>
+                app.alerts.show(
+                  {
+                    type: 'success',
+                  },
+                  app.translator.trans('sycho-force-password-reset.admin.force_password_reset.reset_all_success')
+                )
+              );
           }
-        }}>
+        }}
+      >
         {app.translator.trans('sycho-force-password-reset.admin.force_password_reset.button_label')}
       </Button>
     </div>
