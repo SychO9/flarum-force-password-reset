@@ -50,10 +50,6 @@ class ResetPasswordController extends AbstractHtmlController
             throw new InvalidConfirmationTokenException;
         }
 
-        $errors = $request->getAttribute('session')->get('errors');
-
-//        dd($errors);
-
         return $this->view->make('sycho-force-password-reset::reset-password')
             ->with('passwordToken', $token->token)
             ->with('csrfToken', $request->getAttribute('session')->token());

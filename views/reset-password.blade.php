@@ -21,10 +21,6 @@
     <input type="hidden" name="passwordToken" value="{{ $passwordToken }}">
 
     <p class="form-group">
-      <input type="password" class="form-control" name="current_password" autocomplete="password" placeholder="{{ $translator->trans('sycho-force-password-reset.forum.current_password_label') }}">
-    </p>
-
-    <p class="form-group">
       <input type="password" class="form-control" name="password" autocomplete="new-password" placeholder="{{ $translator->trans('core.views.reset_password.new_password_label') }}">
     </p>
 

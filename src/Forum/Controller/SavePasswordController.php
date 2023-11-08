@@ -81,19 +81,6 @@ class SavePasswordController implements RequestHandlerInterface
         $token = PasswordToken::findOrFail(Arr::get($input, 'passwordToken'));
 
         $password = Arr::get($input, 'password');
-        $currentPassword = Arr::get($input, 'current_password');
-
-        if (! $currentPassword || ! $token->user->checkPassword($currentPassword)) {
-            return $this->displayWithErrors($request, $token, [
-                'current_password' => $this->translator->trans('validation.password')
-            ]);
-        }
-
-        if ($currentPassword === $password) {
-            return $this->displayWithErrors($request, $token, [
-                'password' => $this->translator->trans('sycho-force-password-reset.forum.new_password_must_be_different')
-            ]);
-        }
 
         try {
             // todo: probably shouldn't use the user validator for this,
