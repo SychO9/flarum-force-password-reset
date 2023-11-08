@@ -12,14 +12,23 @@
 namespace SychO\ForcePasswordReset;
 
 use Flarum\Extend;
+use Flarum\Frontend\Document;
 use Flarum\User\Event\PasswordChanged;
 use Flarum\User\User;
 
 return [
     (new Extend\Frontend('admin'))
-        ->js(__DIR__.'/js/dist/admin.js'),
+        ->js(__DIR__.'/js/dist/admin.js')
+        ->css(__DIR__.'/less/admin.less'),
 
     new Extend\Locales(__DIR__.'/locale'),
+
+    (new Extend\Frontend('admin'))
+        ->content(function (Document $document) {
+            $document->payload['sycho-force-password-reset.reset-done-count'] = User::query()
+                ->whereNotNull('password_reset_at')
+                ->count();
+        }),
 
     (new Extend\Model(User::class))
         ->cast('required_password_reset_at', 'datetime')
