@@ -11,7 +11,9 @@ namespace SychO\ForcePasswordReset\Forum\Controller;
 
 use DateTime;
 use Flarum\Http\Controller\AbstractHtmlController;
+use Flarum\Http\RequestUtil;
 use Flarum\User\Exception\InvalidConfirmationTokenException;
+use Flarum\User\Exception\NotAuthenticatedException;
 use Flarum\User\PasswordToken;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Arr;
@@ -44,7 +46,15 @@ class ResetPasswordController extends AbstractHtmlController
     {
         $token = Arr::get($request->getQueryParams(), 'token');
 
+        /** @var PasswordToken $token */
         $token = PasswordToken::findOrFail($token);
+
+        $actor = RequestUtil::getActor($request);
+        $actor->assertRegistered();
+
+        if ($actor->id !== $token->user_id) {
+            throw new NotAuthenticatedException;
+        }
 
         if ($token->created_at < new DateTime('-1 day')) {
             throw new InvalidConfirmationTokenException;

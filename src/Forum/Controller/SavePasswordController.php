@@ -97,6 +97,12 @@ class SavePasswordController implements RequestHandlerInterface
             return $this->displayWithErrors($request, $token, $e->errors());
         }
 
+        if ($token->user->checkPassword($password)) {
+            return $this->displayWithErrors($request, $token, [
+                'password' => $this->translator->trans('sycho-force-password-reset.forum.new_password_must_be_different')
+            ]);
+        }
+
         $token->user->changePassword($password);
         $token->user->save();
 
